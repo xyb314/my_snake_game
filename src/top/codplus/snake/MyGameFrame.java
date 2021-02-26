@@ -20,11 +20,12 @@ import javax.swing.JFrame;
 public class MyGameFrame extends JFrame{
 	
 	Food food = new Food();
+	Snake gameSnake = new Snake();
 	
 	class KeyMonitor extends KeyAdapter {
 		@Override
 		public void keyPressed(KeyEvent e) {
-			
+				gameSnake.changeDirection(e);
 			}
 		@Override
 		public void keyReleased(KeyEvent e) {
@@ -35,7 +36,7 @@ public class MyGameFrame extends JFrame{
 	class PaintThread extends Thread {
 		@Override
 		public void run() {
-			while (true) { // 反复重画窗口
+			while (!gameSnake.isGameOver()) { // 反复重画窗口
 				repaint();
 				try {
 					Thread.sleep(Constant.REFRESH_RATE);
@@ -65,9 +66,17 @@ public class MyGameFrame extends JFrame{
 		
 		// 画出边框
 		gBuffer.setColor(Color.BLACK);
-		gBuffer.drawRect(50, 50, 300, 300);
+		gBuffer.drawRect(48, 48, 302, 302);  // 实际运行区域为50, 50, 300, 300
 		
 		food.drawSelf(gBuffer);
+		gameSnake.drawSelf(gBuffer);
+		
+		if(food.getRect().intersects(gameSnake.getHeadRect())) {
+			gameSnake.grow();
+			while(gameSnake.isFoodOnSnake(food)) {
+				food.relocate();
+			}
+		}
 		
 		// 恢复原来的颜色和字体
 		gBuffer.setColor(c);

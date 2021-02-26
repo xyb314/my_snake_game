@@ -20,7 +20,6 @@ public class Food extends GameObject{
 		
 		g.setColor(this.color);
 		g.fillRect(x + 2, y + 2, width - 4, height - 4);
-		relocate();
 		
 		g.setColor(c);
 	}

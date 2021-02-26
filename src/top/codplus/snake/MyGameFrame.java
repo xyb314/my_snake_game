@@ -73,9 +73,9 @@ public class MyGameFrame extends JFrame{
 		
 		if(food.getRect().intersects(gameSnake.getHeadRect())) {
 			gameSnake.grow();
-			while(gameSnake.isFoodOnSnake(food)) {
+			do {
 				food.relocate();
-			}
+			} while(gameSnake.isFoodOnSnake(food));
 		}
 		
 		// 恢复原来的颜色和字体

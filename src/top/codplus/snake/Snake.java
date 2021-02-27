@@ -3,7 +3,9 @@ package top.codplus.snake;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 
 public class Snake {
@@ -31,28 +33,33 @@ public class Snake {
 	}
 
 	public void drawSelf(Graphics g) {
-		Color c = g.getColor();
-		Font f = g.getFont();
+		Graphics2D g2d = (Graphics2D)g;
+		g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		Color c = g2d.getColor();
+		Font f = g2d.getFont();
 
 		if(live) {
 			move();
 		}else {
 			gameOver = true;
-			g.setColor(Color.RED);
-			g.setFont(new Font("Times New Roman", Font.BOLD, 35));
-			g.drawString("Game Over!", 110, 424);
-			g.setFont(new Font("Times New Roman", Font.BOLD, 17));
-			g.drawString("Press ENTER to restart.", 114, 454);
+			g2d.setColor(Color.RED);			
+			g2d.setFont(new Font("Times New Roman", Font.BOLD, 35));
+			g2d.drawString("Game Over!", 110, 408);
+			g2d.setFont(new Font("Times New Roman", Font.BOLD, 17));
+			g2d.drawString("Press ENTER to restart.", 114, 434);
+			g2d.setFont(new Font("Times New Roman", Font.BOLD, 14));
+			g2d.drawString("[" + MyGameFrame.REFRESH_RATE + "] ms to move a step.", 202, 460);
+			g2d.drawString("Press UP / DOWN to adjust.", 180, 478);
 		}
 		for (int i = this.size - 1; i >= 0; --i) {
 			snake[i].drawSelf(g);
 		}
-		g.setColor(Color.RED);
-		g.setFont(new Font("Times New Roman", Font.BOLD, 12));
-		g.drawString("Score: " + (this.size - 3), 294, 372);
+		g2d.setColor(Color.RED);
+		g2d.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		g2d.drawString("Score: " + (this.size - 3), 294, 372);
 		
-		g.setColor(c);
-		g.setFont(f);
+		g2d.setColor(c);
+		g2d.setFont(f);
 	}
 	
 	public Rectangle getHeadRect() {  // »ñµÃ¾ØÐÎ

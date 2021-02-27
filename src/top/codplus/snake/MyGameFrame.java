@@ -21,13 +21,33 @@ public class MyGameFrame extends JFrame{
 	
 	Food food = new Food();
 	Snake gameSnake = new Snake();
+	public static int REFRESH_RATE = 100;  // 游戏每几毫秒刷新一次
 	
 	class KeyMonitor extends KeyAdapter {
 		@Override
 		public void keyPressed(KeyEvent e) {
-			if (gameSnake.isGameOver() && e.getKeyCode() == KeyEvent.VK_ENTER) {
-				food = new Food();
-				gameSnake = new Snake();
+			if (gameSnake.isGameOver()) {
+				switch (e.getKeyCode()) {
+				case KeyEvent.VK_ENTER:{
+					food = new Food();
+					gameSnake = new Snake();
+					break;
+				}
+				case KeyEvent.VK_UP:{
+					if (REFRESH_RATE >= 200) {
+						break;
+					}
+					REFRESH_RATE += 10;
+					break;
+				}
+				case KeyEvent.VK_DOWN:{
+					if (REFRESH_RATE <= 10) {
+						break;
+					}
+					REFRESH_RATE -= 10;
+					break;
+				}
+				}
 			} else {
 				gameSnake.changeDirection(e);
 			}
@@ -44,7 +64,7 @@ public class MyGameFrame extends JFrame{
 			while (true) { // 反复重画窗口
 				repaint();
 				try {
-					Thread.sleep(Constant.REFRESH_RATE);
+					Thread.sleep(REFRESH_RATE);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

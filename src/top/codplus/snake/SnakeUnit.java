@@ -16,6 +16,8 @@ public class SnakeUnit extends GameObject{
 		
 		g.setColor(this.color);
 		g.fillRect(x, y, width, height);
+		g.setColor(Color.BLACK);
+		g.drawRect(x, y, width, height);
 		
 		g.setColor(c);
 	}

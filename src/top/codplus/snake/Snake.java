@@ -40,14 +40,16 @@ public class Snake {
 			gameOver = true;
 			g.setColor(Color.RED);
 			g.setFont(new Font("Times New Roman", Font.BOLD, 35));
-			g.drawString("Game Over!", 115, 425);
+			g.drawString("Game Over!", 110, 424);
+			g.setFont(new Font("Times New Roman", Font.BOLD, 17));
+			g.drawString("Press ENTER to restart.", 114, 454);
 		}
 		for (int i = this.size - 1; i >= 0; --i) {
 			snake[i].drawSelf(g);
 		}
 		g.setColor(Color.RED);
 		g.setFont(new Font("Times New Roman", Font.BOLD, 12));
-		g.drawString("Score: " + (this.size - 3), 293, 372);
+		g.drawString("Score: " + (this.size - 3), 294, 372);
 		
 		g.setColor(c);
 		g.setFont(f);
@@ -93,33 +95,38 @@ public class Snake {
 	}
 	
 	public void changeDirection(KeyEvent e) {
+		if (this.isGameOver()) return;
 		switch(e.getKeyCode()) {
-		case KeyEvent.VK_LEFT:{
-			if(right) {
+		case KeyEvent.VK_LEFT:
+		case KeyEvent.VK_A: {
+			if(snake[0].getX() > snake[1].getX() && snake[0].getY() == snake[1].getY()) {
 				break;
 			}
 			left = true;
 			right = down = up = false;
 			break;
 		}
-		case KeyEvent.VK_UP:{
-			if(down) {
+		case KeyEvent.VK_UP:
+		case KeyEvent.VK_W: {
+			if(snake[0].getX() == snake[1].getX() && snake[0].getY() > snake[1].getY()) {
 				break;
 			}
 			up = true;
 			left = right = down = false;
 			break;
 		}
-		case KeyEvent.VK_RIGHT:{
-			if(left) {
+		case KeyEvent.VK_RIGHT:
+		case KeyEvent.VK_D: {
+			if(snake[0].getX() < snake[1].getX() && snake[0].getY() == snake[1].getY()) {
 				break;
 			}
 			right= true;
 			left = up = down = false;
 			break;
 		}
-		case KeyEvent.VK_DOWN:{
-			if(up) {
+		case KeyEvent.VK_DOWN:
+		case KeyEvent.VK_S: {
+			if(snake[0].getX() == snake[1].getX() && snake[0].getY() < snake[1].getY()) {
 				break;
 			}
 			down = true;

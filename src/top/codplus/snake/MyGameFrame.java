@@ -25,8 +25,13 @@ public class MyGameFrame extends JFrame{
 	class KeyMonitor extends KeyAdapter {
 		@Override
 		public void keyPressed(KeyEvent e) {
+			if (gameSnake.isGameOver() && e.getKeyCode() == KeyEvent.VK_ENTER) {
+				food = new Food();
+				gameSnake = new Snake();
+			} else {
 				gameSnake.changeDirection(e);
 			}
+		}
 		@Override
 		public void keyReleased(KeyEvent e) {
 			
@@ -36,7 +41,7 @@ public class MyGameFrame extends JFrame{
 	class PaintThread extends Thread {
 		@Override
 		public void run() {
-			while (!gameSnake.isGameOver()) { // 反复重画窗口
+			while (true) { // 反复重画窗口
 				repaint();
 				try {
 					Thread.sleep(Constant.REFRESH_RATE);
